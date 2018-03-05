@@ -13,7 +13,7 @@ class ad_test():
     def __init__(self):
         self.chromedriver = 'C:\Users\Administrator\Desktop\chromedriver.exe'
         self.chome_options = webdriver.ChromeOptions()
-        # self.chome_options.add_argument('--proxy-server=http://110.73.52.55:8123')
+        # self.chome_options.add_argument('--proxy-server=http://117.28.145.140:35081')
         mobileEmulation = {'deviceName': 'Galaxy S5'}
         self.chome_options.add_experimental_option('mobileEmulation', mobileEmulation)
         os.environ["webdriver.chrome.driver"] = self.chromedriver
@@ -33,13 +33,14 @@ class ad_test():
         self.driver.get(self.url)
         print("test")
         WebDriverWait(self.driver, 20, 0.5).until(EC.presence_of_element_located(self.locator))
+        self.now_handle = self.driver.current_window_handle
         return self.driver
 
 
     def find_element(self):
 
 
-        self.dans = '//*[@id="egg"]/div[6]/div[2]/div[1]/button[1]'
+        self.dans = '//*[@id="egg"]/div[6]/div[2]/div[9]/button[1]'
         self.jiang = '//*[@id="dialog5"]/div[3]/div[3]/div[2]'
 
 
@@ -48,12 +49,15 @@ class ad_test():
         for i in range(1,9):
 
             time.sleep(3)
+            # WebDriverWait(self.driver, 20, 0.5).until(EC.element_to_be_clickable(self.locator))
             self.driver.find_element_by_xpath('//*[@id="egg"]/div[6]/div[2]/div[{}]/button[1]'.format(i)).click()
-            # print(WebDriverWait(self.driver, 20, 0.5).until(EC.presence_of_element_located(self.locator2)))
-            time.sleep(3)
+            print(i)
+            WebDriverWait(self.driver, 20, 0.5).until(EC.element_to_be_clickable(self.locator2))
+            # time.sleep(3)
             self.driver.find_element_by_xpath(self.jiang).click()
-            time.sleep(2)
+            time.sleep(0.5)
             self.driver.back()
+            self.driver.switch_to.window(self.now_handle)
 
 
 
