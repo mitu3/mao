@@ -11,18 +11,20 @@ class ad_test():
 
 
     def __init__(self):
-        self.chromedriver = 'C:\\Users\\bxm\AppData\Local\Programs\Python\Python36\chromedriver.exe'
+        self.chromedriver = 'C:\Users\Administrator\Desktop\chromedriver.exe'
         self.chome_options = webdriver.ChromeOptions()
         # self.chome_options.add_argument('--proxy-server=http://110.73.52.55:8123')
         mobileEmulation = {'deviceName': 'Galaxy S5'}
         self.chome_options.add_experimental_option('mobileEmulation', mobileEmulation)
         os.environ["webdriver.chrome.driver"] = self.chromedriver
+        self.chome_options.add_argument('--headless')
         self.driver = webdriver.Chrome(self.chromedriver, chrome_options=self.chome_options)
         self.url = 'http://m.cudaojia.com/distt/eggModel/show/egg12506.html?business=money-1&' \
-                   'appkey=32bb6e97ac7e44328643fccab4f47287&uid=DFDD450A089821023BB7AF1C35DB31&' \
-                   'activityid=12506&i=__IMEI__&f=__IDFA__&gettime=1518078204570#page2'
+                   'appkey=32bb6e97ac7e44328643fccab4f47287&uid=DFDD450A089821023BB7A{}&' \
+                   'activityid=12506&i=__IMEI__&f=__IDFA__&gettime={}#page2'.format(time.time()*10,time.time())
         # self.url = 'http://47.96.253.233:18501/common/findAll?typegroupid=ae'
         # self.url = 'http://httpbin.org/ip'
+        print(self.url)
         self.locator = (By.XPATH, '//*[@id="egg"]/div[6]/div[2]/div[1]/button[1]')
         self.locator2 = (By.XPATH, '//*[@id="dialog5"]/div[3]/div[3]/div[2]')
 
@@ -31,7 +33,7 @@ class ad_test():
         self.driver.get(self.url)
         print("test")
         WebDriverWait(self.driver, 20, 0.5).until(EC.presence_of_element_located(self.locator))
-
+        return self.driver
 
 
     def find_element(self):
@@ -47,7 +49,7 @@ class ad_test():
 
             time.sleep(3)
             self.driver.find_element_by_xpath('//*[@id="egg"]/div[6]/div[2]/div[{}]/button[1]'.format(i)).click()
-            print(WebDriverWait(self.driver, 20, 0.5).until(EC.presence_of_element_located(self.locator2)))
+            # print(WebDriverWait(self.driver, 20, 0.5).until(EC.presence_of_element_located(self.locator2)))
             time.sleep(3)
             self.driver.find_element_by_xpath(self.jiang).click()
             time.sleep(2)
@@ -56,7 +58,18 @@ class ad_test():
 
 
 
-t=ad_test()
-t.test()
-t.find_element()
-t.throughput()
+def run():
+    try:
+        t=ad_test()
+        a = t.test()
+        t.find_element()
+        t.throughput()
+        a.close()
+    except Exception:
+        print("chongqi")
+        a.close()
+
+
+
+for i in range(20):
+    run()
