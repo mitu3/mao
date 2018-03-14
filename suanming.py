@@ -16,6 +16,7 @@ def getorder(name, time, gender, model):
         'ma_id'	:'1dd23238-a33b-4bf8-f582-910e2187d410',
         'gender':gender
     }
+    requests.packages.urllib3.disable_warnings()
     req = requests.post(url=url, data=data,verify=False)
     return (req.json()['order_id'])
 
@@ -39,6 +40,7 @@ def reqjson(orderid,sign):
         'sign':sign
         # 'sign': '31e76fa41a0affadf0c0d96206bb34bc'
     }
+    requests.packages.urllib3.disable_warnings()
     req1 = requests.post(url=url,data=data)
     return (req1.json()['url'])
 
@@ -61,5 +63,6 @@ def run():
     signnum = getsign(orderid)
     urlresult = reqjson(orderid,signnum)
     print(urlresult)
+if __name__ == '__main__':
 
-run()
+    run()
